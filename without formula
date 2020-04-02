@@ -1,0 +1,32 @@
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
+Area = np.array([507,746,755,816,909,1209,1449,1535,1609,1682,1909,1952,2109,3381]).reshape((-1,1))
+Price = np.array([25.1,32.85,36,38.22,41,39,61.56,54.5,54,79,76,74,111,134])
+
+model = LinearRegression().fit(Area,Price)
+print('slope , m :', model.coef_)
+print('Intercept ,c :', model.intercept_)
+
+
+Success #stdin #stdout 0.32s 65632KB
+('slope , m :', array([0.03976809]))
+('Intercept ,c :', 2.7342860297020835)
+
+..........................................................................................................................................
+..........................................................................................................................................
+
+#Predicting Price for Built-up Area of 1000 sqft#Predicting Price for Built-up Area of 1000 sqft
+Area_new = np.array([1000]).reshape((-1, 1))
+print("Built-up Area :",Area_new)
+y_new = model.predict(Area_new)
+print("Price for Built-up Area of 1000 sqft : ", y_new , "lakhs")
+
+
+('Built-up Area :', array([[1000]]))
+('Price for Built-up Area of 1000 sqft : ', array([42.50237216]), 'lakhs')
+
+..................................................................................................................................
+..............................................................................................................................
+
+
