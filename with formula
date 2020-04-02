@@ -1,0 +1,93 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+import math
+
+Area=[507,746,755,816,909,1209,1449,1535,1609,1682,1909,1952,2109,3381]
+Price=[25.1,32.85,36,38.22,41,39,61.56,54.5,54,79,76,74,111,134]
+
+def mean(x):
+    sum = 0.0
+    for i in x:
+         sum+=i
+    return float(sum/len(x)) 
+
+#Variance(x)=(xi-mean(x))^2
+def variance(x):
+    sum_v = 0.0
+    for i in x:
+         sum_v+=(i-mean(x))**2
+    return sum_v
+
+#covariance(x,y)=sum(xi-mean(x)* yi-mean(y))
+def covariance(x,y):
+    cov_xy = []
+    for i,j in zip(x,y):
+        x1 = i-mean(x)
+        y1 = j-mean(y)
+        cov_xy.append(x1*y1)
+    cov = sum(cov_xy)   
+    return cov
+
+#Slope, m = covariance(x,y)/variance(x)
+def slope(x, y):
+    slope = (covariance(x,y))/(variance(x))
+    return slope
+
+#Intercept, c = mean(y)-m*mean(x)
+def Intercept(x, y):
+    c = mean(y)-(slope(x,y)*mean(x))
+    return c
+m=slope(Area,Price)
+c=Intercept(Area,Price)
+print ("Regression using OLS")
+print("\nmean_Built-up-Area:",mean(Area))
+print("mean_Price:",mean(Price))
+print("\ncovariance (Built-up-Area,Price):",covariance(Area,Price))
+print("\nSlope ,m : ",m)
+print("\nIntercept ,c : ",c)
+print("\nREGRESSION EQUATION ,y=",m,"x +",c)
+
+
+
+Success #stdin #stdout 0.85s 114912KB
+Regression using OLS
+('\nmean_Built-up-Area:', 1469.142857142857)
+('mean_Price:', 61.159285714285716)
+('\ncovariance (Built-up-Area,Price):', 291402.0714285714)
+('\nSlope ,m : ', 0.03976808613303049)
+('\nIntercept ,c : ', 2.734286029702062)
+('\nREGRESSION EQUATION ,y=  0.03976808613303049 x + 2.734286029702062)
+
+
+.....................................................................................................................................
+
+
+#Predicting Price for Built-up Area of 1000 sqft
+x=1000
+price=m*x+c
+print("Price for Built-up Area of 1000 sqft is :",price," Lakhs")
+
+
+('Price for Built-up Area of 1000 sqft is :', 42.502372162732556, ' Lakhs')
+
+..............................................................................................................................................
+
+
+#plotting the regression line
+max_x = np.max(Area) + 100
+min_x = np.min(Price) - 100
+
+rx = np.linspace(min_x, max_x, 1000)
+ry = c + m * rx 
+ 
+# Ploting Line
+plt.plot(rx, ry, color='#52b920', label='Regression Line')
+# Ploting Scatter Points
+plt.scatter(Area, Price, c='#ef4423', label='Scatter Plot')
+ 
+plt.xlabel('Area')
+plt.ylabel('Price')
+plt.legend()
+plt.show()
